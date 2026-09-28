@@ -1,0 +1,44 @@
+# Code Plagiarism Checker
+# No external libraries required
+import re
+def clean_code(code):
+    # Remove comments
+    code = re.sub(r"#.*", "", code)
+    # Convert to lowercase
+    code = code.lower()
+    # Split code into words/tokens
+    tokens = re.findall(r"[a-zA-Z_][a-zA-Z0-9_]*", code)
+    return set(tokens)
+def calculate_similarity(code1, code2):
+    set1 = clean_code(code1)
+    set2 = clean_code(code2)
+    if not set1 and not set2:
+        return 100
+    common = set1.intersection(set2)
+    total = set1.union(set2)
+    similarity = (len(common) / len(total)) * 100
+    return similarity
+print("===== CODE PLAGIARISM CHECKER =====")
+print("\nEnter first code:")
+code1 = input()
+print("\nEnter second code:")
+code2 = input()
+similarity = calculate_similarity(code1, code2)
+print("\n===== RESULT =====")
+print("Similarity:", round(similarity, 2), "%")
+if similarity >= 70:
+    print("Result: High similarity detected.")
+elif similarity >= 40:
+    print("Result: Moderate similarity detected.")
+else:
+    print("Result: Low similarity detected.")
+
+OUTPUT:
+===== CODE PLAGIARISM CHECKER =====
+Enter first code:
+def add(a,b): return a+b
+Enter second code:
+def sum(a,b): return a+b
+===== RESULT =====
+Similarity: 66.67 %
+Result: Moderate similarity detected.
